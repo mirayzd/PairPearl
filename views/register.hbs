@@ -1,0 +1,192 @@
+<div class="col-12 col-lg-6 mx-auto vertical-center">
+    <div class="container mx-auto my-5">
+        <h2>Register a new account</h2>
+        <div class="jumbotron bg-grey" id="accountbox">
+            <div id="alert" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span id="msg">{{error}}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/register" method="POST" autocomplete="off" novalidate>
+                <div id="acctformcont" class="container">
+                    <div class="form-group">
+                        <label for="fname">First Name</label>
+                        <input name="fname" class="form-control validate" type="text" id="fname" placeholder="First Name" minlength="2" maxlength="15" required>
+                        <div class="invalid-feedback">This field must be 2 to 15 characters long</div>
+                    </div>
+                        <div class="form-group">
+                        <label for="lname">Last Name</label>
+                        <input name="lname" class="form-control validate" type="text" id="lname" placeholder="Last Name" minlength="2" maxlength="15" required>
+                        <div class="invalid-feedback">This field must be 2 to 15 characters long</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input name="email" class="form-control validate" type="email" id="email" placeholder="Email" required>
+                        <div class="invalid-feedback">Please enter a valid email</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="number">Contact Number</label>
+                        <input name="number" class="form-control validate" type="text" id="number" pattern="^(09)\d{9}$" 
+                            placeholder="11-digit Contact Number" required>
+                        <div class="invalid-feedback">Please follow the 11-digit format: 09xxxxxxxxx </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="pw1">Password</label>
+                        <input name="pw1" class="form-control validate" type="password" id="pw1" placeholder="Password" minlength="3" maxlength="16" required>
+                        <div class="invalid-feedback">Password must be 3 to 16 characters long</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="pw2">Confirm Password</label>
+                        <input name="pw2" class="form-control validate" type="password" id="pw2" placeholder="Confirm Password" required>
+                        <div class="invalid-feedback">Password does not match</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="add1">Address Line 1</label>
+                        <input name="add1" class="form-control" type="text" id="add1" placeholder="Unit / Block no., Street no."> 
+                        {{!-- <div class="invalid-feedback">Please enter valid address</div> --}}
+                    </div>
+                    <div class="form-group">
+                        <label for="add2">Address Line 2</label>
+                        <input name="add2" class="form-control" type="text" id="add2" placeholder="Subdivision, Brgy.">
+                        {{!-- <div class="invalid-feedback">Please enter valid address</div> --}}
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <select name="city" class="custom-select" id="city" placeholder="City">
+                            {{>cities}}
+                        </select>
+                    </div>
+                    <button type='submit' class='btn btn-primary'>Register</button>
+                </div>
+            </form>
+            <div class='row mx-3 my-3 d-flex align-items-center'>
+            <span class='text-center'>Have an account? <a class='normala' href='/'>Login</a> instead...</span>
+        </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready( function(){
+
+        if( $("#msg").text() == "") 
+        {
+            $("#alert").hide()
+        }
+        // First Name Validation
+        $(".validate").keyup(function(){
+            if (this.checkValidity() === false) {
+                $(this).addClass("is-invalid");
+            }
+            else{
+                $(this).removeClass("is-invalid");
+                $(this).addClass("is-valid");
+            }
+        })
+
+        $("#pw1").keyup(function(){
+            if (this.checkValidity() === false) {
+                $(this).addClass("is-invalid");
+            }
+            else{
+                $(this).removeClass("is-invalid");
+                $(this).addClass("is-valid");
+            }
+        })
+
+        $("#pw1").change(function(){
+            if ( $("#pw2").val() !== $("#pw1").val() ) {
+                $("#pw2").addClass("is-invalid");
+            }
+            else{
+                $("#pw2").removeClass("is-invalid");
+                $("#pw2").addClass("is-valid");
+            }
+        })
+
+        $("#pw2").keyup(function(){
+            if ( $(this).val() !== $("#pw1").val() ) {
+                $(this).addClass("is-invalid");
+            }
+            else{
+                $(this).removeClass("is-invalid");
+                $(this).addClass("is-valid");
+            }
+        })
+
+
+
+        $("#city").change(function(){
+            if ($(this).val() === "City") {
+                $(this).addClass("is-invalid");
+            }
+            else{
+                $(this).removeClass("is-invalid");
+                $(this).addClass("is-valid");
+            }
+        })
+
+        function checkForm(){
+            inputs = $("input")
+            var valid = true;
+            
+            for(i=0; i<inputs.length; i++)
+            {
+                if(inputs[i].classList.contains("is-invalid"))
+                    valid = false;
+            }
+
+        }
+
+        $("form").submit( function(){
+
+            // validate fname, lname, email, number
+            inputs = $(".validate")
+
+            for(i=0; i<inputs.length; i++)
+            {
+                if (inputs[i].checkValidity() === false) {
+                    $(inputs[i]).addClass("is-invalid");
+                }
+                else{
+                    $(inputs[i]).removeClass("is-invalid");
+                    $(inputs[i]).addClass("is-valid");
+                }
+            }
+
+            // validate city 
+            if ($("#city").val() == "City") {
+                $("#city").addClass("is-invalid");
+            }
+            else{
+                $("#city").removeClass("is-invalid");
+                $("#city").addClass("is-valid");
+            }
+
+            // validate password
+            if ( $("#pw2").val() !== $("#pw1").val() ) {
+                $("#pw2").addClass("is-invalid");
+            }
+            else{
+                $("#pw2").removeClass("is-invalid");
+                $("#pw2").addClass("is-valid");
+            }
+
+            validate = $("input")
+            var i = 0
+            var valid = true;
+            while(i<validate.length && valid)
+            {
+                if (validate[i].classList.contains("is-invalid")) {
+                   valid = false
+                }
+                i++;
+            }
+            return valid
+
+        })
+    })
+    
+</script>

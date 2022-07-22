@@ -1,0 +1,177 @@
+<div class='mx-auto container mt-5 mt-md-0'>
+    <div class='row mt-3 ml-1'>
+        <h3>Manage Orders</h3>
+    </div>
+    {{#each activeorders}}
+    <div class='row my-3'>
+        <div class='container-fluid border border-0 rounded'>
+            <div class='row bg-{{this.status}}'>
+                &nbsp;
+            </div>
+            <div class="row p-4 bg-light">
+                <div class="col-md-5 col-12">
+                    <span class='orderno' data-value='{{this._id}}'>ORDER NUMBER <h5>{{this._id}}</h5></span>
+                    <span class='font-weight-bold'>{{this.buyer.fname}} {{this.buyer.lname}}</span> - <span>{{this.status}}</span> <br>
+                    <span>{{this.buyer.number}} - {{this.buyer.email}}</span> <br>
+                    <span>{{this.buyer.add1}}, {{this.buyer.add2}}, {{this.buyer.city}}</span>
+                    <br><br>
+                    <span class='font-weight-bold'>DATE ORDERED:</span> {{formatDate this.date_of_order}} <br>
+                    <span class='font-weight-bold'>DATE DELIVERED:</span> {{formatDate this.date_of_deliver}}
+                    <br><br>
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Change Status</button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item changestatus" data-value='Active'>Active</a>
+                        <a class="dropdown-item changestatus" data-value='Hold'>Hold</a>
+                        <a class="dropdown-item changestatus" data-value='Cancelled'>Cancelled</a>
+                        <a class="dropdown-item changestatus" data-value='Delivered'>Delivered</a>
+                    </div>
+                </div>
+
+                <div class='col-md-7 col-12 mt-3 mt-md-5'>
+                    <table class="table">
+                        <col width="180">
+                        <col width="30">
+                        <thead>
+                            <tr>
+                                <th>TOTAL</th>
+                                <th class='text-right'>PHP <span class='decimal'>{{this.total_price}}</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each this.order_items}}
+                            <tr>
+                                <td>{{productno.name}} (PHP <span class="price decimal">{{unitprice}}</span> X <span class="quantity decimal">{{quantity}}</span>)</td>
+                                <td class='text-right'><span class="total decimal"></span></td>
+                            </tr>
+                            {{/each}}
+                            <tr>
+                                <td>Delivery</td>
+                                <td class='text-right'>50.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+
+    <br>
+
+    <a class="btn btn-primary" data-toggle="collapse" href="#pastOrders" aria-expanded="false" aria-controls="pastOrderButton">
+        Toggle Delivered Orders
+    </a>
+
+    <br><br>
+
+    <div class="collapse" id="pastOrders">
+        <div class="container"><h3>Delivered Orders</h3></div>
+        {{#each pastorders}}
+        <div class='row my-3'>
+            <div class='container-fluid border border-0 rounded'>
+            <div class='row bg-{{this.status}}'>
+                &nbsp;
+            </div>
+            <div class="row p-4 bg-light">
+                <div class="col-md-5 col-12">
+                    <span class='orderno' data-value='{{this._id}}'>ORDER NUMBER <h5>{{this._id}}</h5></span>
+                    <span class='font-weight-bold'>{{this.buyer.fname}} {{this.buyer.lname}}</span> - <span>{{this.status}}</span> <br>
+                    <span>{{this.buyer.number}} - {{this.buyer.email}}</span> <br>
+                    <span>{{this.buyer.add1}}, {{this.buyer.add2}}, {{this.buyer.city}}</span>
+                    <br><br>
+                    <span class='font-weight-bold'>DATE ORDERED:</span> {{formatDate this.date_of_order}} <br>
+                    <span class='font-weight-bold'>DATE DELIVERED:</span> {{formatDate this.date_of_deliver}}
+                    <br><br>
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Change Status</button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item changestatus" data-value='Active'>Active</a>
+                        <a class="dropdown-item changestatus" data-value='Hold'>Hold</a>
+                        <a class="dropdown-item changestatus" data-value='Cancelled'>Cancelled</a>
+                        <a class="dropdown-item changestatus" data-value='Delivered'>Delivered</a>
+                    </div>
+                </div>
+
+                <div class='col-md-7 col-12 mt-3 mt-md-5'>
+                    <table class="table">
+                        <col width="180">
+                        <col width="30">
+                        <thead>
+                            <tr>
+                                <th>TOTAL</th>
+                                <th class='text-right'>PHP <span class='decimal'>{{this.total_price}}</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each this.order_items}}
+                            <tr>
+                                <td>{{productno.name}} (PHP <span class="price decimal">{{unitprice}}</span> X <span class="quantity decimal">{{quantity}}</span>)</td>
+                                <td class='text-right'><span class="total decimal"></span></td>
+                            </tr>
+                            {{/each}}
+                            <tr>
+                                <td>Delivery</td>
+                                <td class='text-right'>50.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </div>
+        {{/each}}
+    </div>
+
+</div>
+
+<script>
+    $(document).ready( function(){
+
+        // commas
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+        // breakdown of total: price x quantity
+
+        var arr = $(".total");
+        var p;
+        var q;
+        
+        for(i=0; i<arr.length; i++)
+        {
+            p = $(arr[i]).parent().parent().children().children().filter(".price").text()
+            q = $(arr[i]).parent().parent().children().children().filter(".quantity").text()
+            //console.log(p)
+            $(arr[i]).text("" + p * q)
+        }
+
+
+        // add decimal 
+        var decimal = $(".decimal")
+
+        for(i=0; i<decimal.length; i++)
+        {
+            newValue = $(decimal[i]).text();
+            newValue = parseFloat(newValue);
+            newValue = newValue.toFixed(2);
+            newValue = numberWithCommas(newValue);
+            $(decimal[i]).text(newValue);
+        }
+    });
+
+    $('.changestatus').click(function () {
+        var orderNo = $(this).parent().siblings().filter('.orderno').data('value');
+        var newStatus = $(this).data('value');
+
+        $.ajax({
+            url: "changeStatus",
+            type: 'POST',
+            data: {orderNo: orderNo, newStatus: newStatus},
+            success: function (data) 
+            { 
+                console.log(newStatus); 
+                window.location.href = "/admin/orders"; 
+            },
+        });
+    });
+
+</script>
