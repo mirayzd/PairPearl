@@ -18,8 +18,8 @@ const app = express();
 require('./config/passport')(passport);
 
 // Statics
-app.use(express.static('assets'));
-app.use(express.static(__dirname + '/public'));
+//app.use(express.static('assets'));
+app.use(express.static(__dirname + '/assets'));
 app.enable('strict routing');
 app.all('/admin', function(req, res) { res.redirect('/admin/'); });
 app.use('/admin/',express.static(__dirname+'/public'));
