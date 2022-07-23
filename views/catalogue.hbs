@@ -1,0 +1,297 @@
+<div class='mx-auto container mt-5 mt-md-0'>
+    <div class='row'>
+        <div class='col-12 col-lg-9'>
+            <div class='container'>
+                <h1 class='display-5'>Catalogue</h1>
+            </div>
+            <div class="row my-1 d-flex">
+
+                {{#each catalogue}}
+                
+                <div class="col-8 offset-2 col-sm-6 offset-sm-0 col-md-4 col-lg-3">
+                    <div class='item card border-0 my-3' data-value="{{_id}}">
+                        <div class="card-body">
+                            <div class="itemPictureHolder rounded text-center" data-value='{{picture}}'>
+                                    <img src='itempictures/{{picture}}' class='itemPicture'>
+                            </div>
+                            <div class='row itemFooter'>
+                                <div class='col itemDescription mt-1 ml-3'>
+                                    <div class='row itemName'>{{name}}</div>
+                                    <div class='row itemPrice' data-value="{{price}}">₱ <span class="decimal">{{price}}</span></div>
+                                </div>
+                                <div class='col addToCart mt-1'>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <button class="btn bg-blue subtract">-</button>
+                                        </div>
+                                        <input type="text" class="form-control quantity-field" value="0" aria-label=""
+                                            aria-describedby="basic-addon1" size='2'>
+                                        <div class="input-group-append">
+                                            <button class="btn bg-blue add">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {{/each}}
+            </div>
+        </div>
+        <div class='col-12 col-lg-3'>
+            <div class='card bg-grey border-0 rounded'>
+                <div class='card-body'>
+                    <!-- Dynamic content: Add to div via JS-->
+                    <div class='card-title'>
+                        Shopping Cart
+                    </div>
+
+                    <div id='shoppingCartItems'></div>
+                    <!-- TEMPLATE FOR SHOPPING CART ITEMS
+
+                    <div class='d-flex itemShoppingCart container rounded border border-dark bg-white px-1 my-2'>
+                        <div class='col-7 text-left'>
+                            <div class='row'>
+                                Kirkland Vitamin-D
+                            </div>
+                            <div class='row'>
+                                PHP 300.00 X 3
+                            </div>
+                        </div>
+                        <div class='col-5 d-flex justify-content-end float-right text-right itemPrice'>900.00</div>
+                    </div>
+
+                    -->
+                
+                    <div class='d-flex container px-1'>
+                        <div class='col-5 text-left'>
+                            <div class='row font-weight-bold'>
+                                TOTAL
+                            </div>
+                        </div>
+                        <!-- Dynamic content: Compute total from item prices * quantity -->
+                        <div class='col-7 float-right text-right totalPrice'>0.00</div>
+                    </div>
+                </div>
+                <button class='btn btn-primary bg-lightblue card-footer border-0' id="checkoutButton">Checkout</button>
+            </div>
+            <div class='card bg-grey border-0 rounded mt-4'>
+                <div class='card-body'>
+                    <div class='card-title'>
+                        Recent Orders
+                    </div>
+                    <!-- Change to a clickable: Redirect to checkout page with items of this order -->
+
+                    {{#each orders}}
+                    <div class='d-flex itemShoppingCart container rounded border border-dark px-1 my-2'>
+                        <div class='col-7 text-left'>
+                            <div class='row'>
+                                {{formatDate date_of_order}}
+                            </div>
+                            <div class='row'>
+                                {{order_items.0.productno.name}}...
+                            </div>
+                            <!-- Change to first item of the order-->
+                            <div class='row itemPrice '>
+                                TOTAL: ₱ <span class='decimal'>{{total_price}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+                <a class='btn btn-primary bg-lightblue card-footer border-0' href='/myorders'>My Orders</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type='text/javascript'>
+
+    $(document).ready(() => {
+        var prevItem = null;
+        class cartItem {
+            constructor(productno, name, price, quantity, itemPrice, itemImg) {
+                this.productno = productno;
+                this.name = name;
+                this.price = price;
+                this.quantity = quantity;
+                this.itemPrice = itemPrice;
+                this.itemImg = itemImg;
+            }
+        }
+        var shoppingCartItems = [];
+
+        // commas
+        
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }   
+
+        // add prices past orders
+        decimal = $(".decimal")
+
+        for(i=0; i<decimal.length; i++)
+        {
+            newValue = $(decimal[i]).text();
+            newValue = parseFloat(newValue);
+            newValue = newValue.toFixed(2);
+            newValue = numberWithCommas(newValue);
+            $(decimal[i]).text(newValue);
+        }
+
+        $(".itemPicture").click(function () {
+            currItem = $(this).parent().parent().parent();
+            currItem.children('.card-body').children('.itemFooter').children(".itemDescription").css("display", "none");
+            currItem.children('.card-body').children('.itemFooter').children(".addToCart").css("display", "block");
+
+            if(prevItem != null)
+            {
+                prevItem.children('.card-body').children('.itemFooter').children(".itemDescription").css("display", "block");
+                prevItem.children('.card-body').children('.itemFooter').children(".addToCart").css("display", "none");
+            }
+
+            if (prevItem != null && prevItem.data('value') == currItem.data('value'))
+            {
+                prevItem = null;
+            } else
+            {
+                prevItem = currItem;
+            }
+        });
+
+        function changeShoppingCart(productno, name, price, newQuantity, itemPrice, itemImg)
+        {
+            var item = shoppingCartItems.find(item => productno == item.productno);
+        
+            if (item != null && newQuantity != 0)
+            {
+                // If its part of the shopping cart, update cart
+                //itemPrice = numberWithCommas(itemPrice)
+                //console.log(numberWithCommas(itemPrice))
+                item.quantity = newQuantity;
+                item.itemPrice = itemPrice;
+                
+            }
+            else if (item != null && newQuantity == 0)
+            {
+                // If its part of the shopping cart but new quantity is 0, delete from cart
+                shoppingCartItems.splice(shoppingCartItems.findIndex(item => productno == item.productno))
+            }
+            else
+            {
+                // Item doesn't exist, push to cart
+                var newItem = new cartItem(productno, name, price, newQuantity, itemPrice, itemImg);
+                shoppingCartItems.push(newItem);
+            }
+
+            $('#shoppingCartItems').empty();
+
+            var cartTotalPrice = 0;
+
+            for(x of shoppingCartItems)
+            {
+                formattedPrice = numberWithCommas(x.itemPrice.toFixed(2))
+                console.log(formattedPrice)
+                var htmlstring = 
+                `
+                <div class='d-flex itemShoppingCart container rounded border border-dark bg-white px-1 my-2'>
+                    <div class='col-7 text-left'>
+                        <div class='row'>
+                            ${x.name}
+                        </div>
+                        <div class='row'>
+                            ${x.price} X ${x.quantity}
+                        </div>
+                    </div>
+                    <div class='col-5 d-flex justify-content-end float-right text-right itemPrice'>${formattedPrice}</div>
+                </div>
+                `;
+
+                $('#shoppingCartItems').append(htmlstring);
+                cartTotalPrice += x.itemPrice;
+            }
+
+            formattedTotalPrice = numberWithCommas(cartTotalPrice.toFixed(2))
+            $('.totalPrice').html(formattedTotalPrice);
+            
+        }
+
+        $(".add").click(function ()
+        {
+            var val = parseInt($(this).parent().siblings("input").val());
+            var productno = $(this).parents().filter(".item").data('value');
+            var name = $(this).parents().filter(".addToCart").siblings(".itemDescription").children(".itemName").html();
+            var price = parseInt($(this).parents().filter(".addToCart").siblings(".itemDescription").children(".itemPrice").data("value"));
+            var itemImg = $(this).parents().filter('.itemFooter').siblings().filter('.itemPictureHolder').data('value');
+            val++;
+            var itemPrice = price*val;
+
+            changeShoppingCart(productno, name, price, val, itemPrice, itemImg);
+
+            $(this).parent().siblings("input").val(val);
+            console.log(productno, shoppingCartItems)
+        });
+
+        $(".subtract").click(function ()
+        {
+            var val = parseInt($(this).parent().siblings("input").val());
+            if(val > 0)
+            {
+                var productno = $(this).parents().filter(".item").data('value');
+                var name = $(this).parents().filter(".addToCart").siblings(".itemDescription").children(".itemName").html();
+                var price = parseInt($(this).parents().filter(".addToCart").siblings(".itemDescription").children(".itemPrice").data("value"));
+                var itemImg = $(this).parents().filter('.itemFooter').siblings().filter('.itemPictureHolder').data('value');
+                val--;
+                var itemPrice = price*val;
+
+                changeShoppingCart(productno, name, price, val, itemPrice, itemImg);
+
+                $(this).parent().siblings("input").val(val);
+                console.log(productno, shoppingCartItems);
+            }
+        });
+
+        $(".quantity-field").change(function ()
+        {
+            var val = parseInt($(this).val());
+            if(val >= 0)
+            {
+                var productno = $(this).parents().filter(".item").data('value');
+                var name = $(this).parents().filter(".addToCart").siblings(".itemDescription").children(".itemName").html();
+                var price = parseInt($(this).parents().filter(".addToCart").siblings(".itemDescription").children(".itemPrice").data("value"));
+                var itemImg = $(this).parents().filter('.itemFooter').siblings().filter('.itemPictureHolder').data('value');
+                var itemPrice = price*val;
+
+                changeShoppingCart(productno, name, price, val, itemPrice, itemImg);
+
+                $(this).val(val);
+                console.log(productno, shoppingCartItems)
+            } 
+            else
+            {
+                $(this).val("0");
+                console.log(productno, shoppingCartItems);
+            }
+        });
+
+        $("#checkoutButton").click(function() 
+        {
+            if(shoppingCartItems.length != 0)
+            {    
+                $.ajax({
+                    url: "/passCheckout",
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(shoppingCartItems),
+                    success: function (data) 
+                    { 
+                        console.log('POST success!'); 
+                        window.location.href = "/checkout"; 
+                    },
+                });
+            }
+        });
+    });
+    
+</script>
