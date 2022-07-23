@@ -121,7 +121,7 @@ app.use('/admin', require('./routes/manageCatalogue'));
 app.use('/admin', require('./routes/adminProf'));
 
 // Port
-const port = envPort || 3000;
+const port = envPort || 3003;
 
 app.listen(port, () => {
     console.log(`Server listening at ${port}`);
