@@ -38,12 +38,12 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AnakAzman/PairPearl_ITT626.git"
+    "url": "git+https://github.com/mirayzd/PairPearl.git"
   },
   "keywords": [],
   "bugs": {
-    "url": "https://github.com/AnakAzman/PairPearl_ITT626/issues"
+    "url": "https://github.com/mirayzd/PairPearl/issues"
   },
-  "homepage": "https://github.com/AnakAzman/PairPearl_ITT626#readme",
+  "homepage": "https://github.com/mirayzd/PairPearl#readme",
   "description": ""
 }

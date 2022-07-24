@@ -27,9 +27,9 @@
                     </div>
                     <div class="form-group">
                         <label for="number">Contact Number</label>
-                        <input name="number" class="form-control validate" type="text" id="number" pattern="^(09)\d{9}$" 
-                            placeholder="11-digit Contact Number" required>
-                        <div class="invalid-feedback">Please follow the 11-digit format: 09xxxxxxxxx </div>
+                        <input name="number" class="form-control validate" type="text" id="number" pattern="^(01)\d{8}$" 
+                            placeholder="10-digit Contact Number" required>
+                        <div class="invalid-feedback">Please follow the 10-digit format: 01xxxxxxxx </div>
                     </div>
                     <div class="form-group">
                         <label for="pw1">Password</label>
@@ -43,16 +43,16 @@
                     </div>
                     <div class="form-group">
                         <label for="add1">Address Line 1</label>
-                        <input name="add1" class="form-control" type="text" id="add1" placeholder="Unit / Block no., Street no."> 
+                        <input name="add1" class="form-control" type="text" id="add1" placeholder="Unit / Block no. / Street no."> 
                         {{!-- <div class="invalid-feedback">Please enter valid address</div> --}}
                     </div>
                     <div class="form-group">
                         <label for="add2">Address Line 2</label>
-                        <input name="add2" class="form-control" type="text" id="add2" placeholder="Subdivision, Brgy.">
+                        <input name="add2" class="form-control" type="text" id="add2" placeholder="District">
                         {{!-- <div class="invalid-feedback">Please enter valid address</div> --}}
                     </div>
                     <div class="form-group">
-                        <label for="city">City</label>
+                        <label for="city">State</label>
                         <select name="city" class="custom-select" id="city" placeholder="City">
                             {{>cities}}
                         </select>

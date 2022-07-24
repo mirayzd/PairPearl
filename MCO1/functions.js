@@ -30,10 +30,10 @@ $(document).ready(function(){
 
         var num = $("#number").val();
         console.log(num);
-        var regex = /^(09)\d{9}$/;
+        var regex = /^(01)\d{8}$/;
         if( regex.test(num) == false )
         {
-            $("#error").text("Must be in 11-digit form: 09XXXXXXXXX");
+            $("#error").text("Must be in 10-digit form: 01XXXXXXXX");
         }
         else
         {
