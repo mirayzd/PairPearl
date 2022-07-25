@@ -27,14 +27,8 @@ app.use('/admin/',express.static(__dirname+'/public'));
 app.use('/admin/',express.static('assets'));
 
 
-// MongoDB
-// const URL = "mongodb+srv://LouisD69:baloney1@pharmago-5nuy4.gcp.mongodb.net/test?retryWrites=true&w=majority";
-//mongoose.connect(dbURL, 
-  //  { useNewUrlParser: true, useUnifiedTopology: true })
-//.then(() => console.log("DB Connected"))
-//.catch(err => console.log(err));
-
-mongoose.connect('mongodb+srv://FarrahKay:123456fk@cluster0.uociu.mongodb.net/?retryWrites=true&w=majority', {
+mongoose.connect('mongodb://localhost:27017/pharmacy', {
+//mongoose.connect('mongodb+srv://FarrahKay:123456fk@cluster0.uociu.mongodb.net/?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }, (err) => {
