@@ -34,7 +34,7 @@ router.get('/checkout', ensureAuthenticated, (req,res) => {
         {
             total += item.itemPrice;
         }
-        total += 50;
+        total += 8;
 
         res.render('checkout', {title: 'Checkout',
             order: shoppingCartItems,
@@ -56,7 +56,7 @@ router.post('/checkout', async (req, res) => {
 
     Acct.getById(_id, function(results){
         
-        let total_price = 50;
+        let total_price = 8;
         let order_items = [];
         let buyer = _id;
         let status = "Active";

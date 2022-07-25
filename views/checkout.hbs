@@ -28,14 +28,14 @@
                             <div id="totalp">
                                 <h5>Delivery Charge</h5>
                             </div>
-                            <h6 class="text-right">PHP</h6>
-                            <h6 class="text-right">50.00</h6>
+                            <h6 class="text-right">RM</h6>
+                            <h6 class="text-right">8.00</h6>
                         </div>
                         <div id="totalcost">
                             <div id="totalp">
                                 <h5>TOTAL</h5>
                             </div>
-                            <h6 class="text-right">PHP</h6>
+                            <h6 class="text-right">RM</h6>
                             <h6 class="decimal text-right">{{totalPrice}}</h6>
                         </div>
                     </div>
@@ -146,10 +146,10 @@ $(document).ready(function(){
 
         var num = $("#number").val();
         console.log(num);
-        var regex = /^(09)\d{9}$/;
+        var regex = /^(01)\d{8}$/;
         if( regex.test(num) == false )
         {
-            $("#error").text("Must be in 11-digit form: 09XXXXXXXXX");
+            $("#error").text("Must be in 10-digit form: 01XXXXXXXX");
         }
         else
         {
