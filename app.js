@@ -45,8 +45,8 @@ mongoose.connect('mongodb+srv://mirayzd:amira220800@cluster0.jxtwf.mongodb.net/?
 // Handlebars
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
 
-app.engine('hbs', exphbs.engine({
-    extname: '.hbs',
+app.engine('hbs', exphbs({
+    extname: 'hbs',
     //defaultview: 'main',
     layoutsDir: __dirname + '/views/layouts/',
     partialsDir: __dirname + '/views/partials/',
