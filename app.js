@@ -27,7 +27,7 @@ app.use('/admin/',express.static(__dirname+'/public'));
 app.use('/admin/',express.static('assets'));
 
 
-mongoose.connect('mongodb://localhost:27017/pharmacy', {
+mongoose.connect('mongodb+srv://mirayzd:amira220800@cluster0.jxtwf.mongodb.net/?retryWrites=true&w=majority', {
 //mongoose.connect('mongodb+srv://FarrahKay:123456fk@cluster0.uociu.mongodb.net/?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -45,8 +45,8 @@ mongoose.connect('mongodb://localhost:27017/pharmacy', {
 // Handlebars
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
 
-app.engine('hbs', exphbs({
-    extname: 'hbs',
+app.engine('hbs', exphbs.engine({
+    extname: '.hbs',
     //defaultview: 'main',
     layoutsDir: __dirname + '/views/layouts/',
     partialsDir: __dirname + '/views/partials/',

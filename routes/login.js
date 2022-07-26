@@ -27,10 +27,12 @@ router.post('/', (req, res, next) => {
     })(req, res, next);
 });
 
-router.get('/logout', (req, res) => {
-    req.logout();
+router.get('/logout', (req, res, next) => {
+    req.logout(function(err) {
+        if (err) { return next(err); }
     req.flash('msg', 'You are logged out');
     res.redirect('/');
+    });
 });
 
 module.exports = router;
