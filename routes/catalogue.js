@@ -26,7 +26,7 @@ router.get('/catalogue', ensureAuthenticated, (req,res) => {
                 Prod.getAll(function(products){
                     res.render('catalogue', 
                     {
-                        title: 'Pharmago',
+                        title: 'PairPearl',
                         fname: results.fname,
                         profilepic: results.profilepic,
                         catalogue: products,
