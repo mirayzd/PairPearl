@@ -27,8 +27,8 @@ app.use('/admin/',express.static(__dirname+'/public'));
 app.use('/admin/',express.static('assets'));
 
 
-mongoose.connect('mongodb://localhost:27017/pharmacy', {
-//mongoose.connect('mongodb+srv://FarrahKay:123456fk@cluster0.uociu.mongodb.net/?retryWrites=true&w=majority', {
+//mongoose.connect('mongodb://localhost:27017/pharmacy', {
+mongoose.connect('mongodb+srv://FarrahKay:123456fk@cluster0.uociu.mongodb.net/?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }, (err) => {
