@@ -7,6 +7,7 @@ https://pairpearl-online-pharmacy.herokuapp.com/
 
 Admin
 email: admin@gmail.com
+
 password: admin
  
 User:
