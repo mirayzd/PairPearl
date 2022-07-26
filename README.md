@@ -14,6 +14,6 @@ password: admin
  
 User:
 
-email: user@gmail.com
+email: user@gmail.com 
 
 password:password
